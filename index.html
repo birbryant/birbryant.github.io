@@ -1,0 +1,436 @@
+<html><head><meta name="viewport" content="width=device-width, initial-scale=1">
+    
+<link rel="stylesheet" type="text/css" href="./style.css">
+
+<title>Birch Bryant</title>
+
+</head>
+<body bgcolor= "#dfdfdf">
+ 
+<img src="./bbryant3.jpg" height="250" align="right" alt="">
+ 
+<div id="site-header"></div>
+<script src="./header.js"></script>
+<h2>Birch F Bryant</h2>
+
+Assistant Professor, Mathematics
+
+<br>
+<br><font color="#3366FF"><a href="https://www.una.edu/math/index.html">
+Department of Mathematics</a></font>
+<br><font color="#3366FF"><a href="http://www.una.edu/">
+University of North Alabama</a></font>
+<br>UNA Box 5051
+<br>Florence, AL 35630
+
+<br>
+<br><b>Office:</b>  328 CPTMTH
+<br><b>E-mail:</b> bbryant3 (AT) una.edu
+
+<hr>
+
+<p>
+</p><h3>Teaching in Fall 2026:</h3>
+<ul>
+<li>
+<b>MA 227 (Calculus III) </b>
+<br>
+MWTTH 10:00-11:50 AM, CPTMTH 325
+</li>
+<li>
+<b>MA 112 (College Algebra)</b>
+<br>
+MWF 8:00-8:50 AM & 11:00-12:00 PM CPTMTH 325
+</li>
+<li>
+    <b>MA 147 (Elementary Statistics)</b>
+    <br>
+    Online
+</li>
+</ul>
+
+
+<p>
+<u><font color="#3333FF"><a href="./teaching.html">
+</a></font></u></p><h3><u><font color="#3333FF"><a href="./teaching.html">Past teaching and research with undergraduates</a></font></u></h3>
+
+
+
+<h3>Education</h3>
+<ul>
+<li>
+<b>Ph.D., Mathematics</b>, 
+Oklahoma State University (2023)
+</li>
+Advisors: Neil Hoffman and William 'Bus' Jaco
+<li>
+<b>B.S., Mathematics</b>, 
+Southeastern Oklahoma State University (2016)
+</li>
+</ul>
+
+<h3>Employment</h3>
+<ul>
+<li>
+<b>Assistant Professor</b>, 
+Department of Mathematics, 
+University of North Alabama (2024-Present) 
+</li>
+<li>
+<b>Visiting Assistant Professor</b>, 
+Department of Mathematics, 
+Sam Houston State University (2023-2024) 
+</li>
+<li>
+<b>Graduate Research Assistant</b>, 
+Oklahoma State University (2019 & 2021)
+</li>
+<li>
+<b>Graduate Teaching Assistant</b>, 
+Oklahoma State University (2017-2023)
+</li>
+</ul>
+
+<h3>Research interests</h3>
+<ul>
+<li>
+Knot Theory.
+</li>
+<li>
+    Hyperbolic Geometry.
+</li>
+<li>
+Low-Dimensional Topology & Geometry, especially:
+<br>
+<i>Normal Surface Theory</i>
+<br>
+<i>Algorithmic Topology</i>
+<br>
+<i>Computational Topology</i>
+<br>
+<i>Computational Geometry</i>
+</li>
+<li>
+Applied Topology.  
+</li>
+</ul>
+
+<p>
+<u><font color="#3333FF"><a href="./publications.html">
+</a></font></u></p><h3><u><font color="#3333FF"><a href="./research.html">Publications</a></font></u></h3>
+
+<p>
+</p><h3><a href="./Bryant_Curriculum_Vitae.pdf" target="_blank" rel="noopener noreferrer">CV</a></h3>
+
+
+
+
+
+<hr>
+
+<h3>Small Twisty Puzzle on a flat Torus</h3>
+  <!-- <div class="cube" id="cube">
+    <div></div> 
+    <div class="face" id="U"></div>
+
+    <div class="face" id="L"></div>
+    <div class="face" id="D"></div>
+  </div> -->
+  
+  <div class="cube" id="cube">
+    <div class="face" id="UL"></div>
+    <div class="face" id="UR"></div>
+    <div class="face" id="DL"></div>
+    <div class="face" id="DR"></div>
+  </div>
+
+  <div class="controls" id="controls">
+    <p>Rotate Face:</p>
+    <button onclick="rotateU('UL')">1</button>
+    <button onclick="rotateL('UR')">2</button>
+    <button onclick="rotateD('DL')">3</button>
+    <button onclick="rotateD('DR')">4</button>
+  </div>
+
+  <!--const faces = {
+      UL: ['U','U','U','U','U','U','U','U','U'],
+      D: ['D','D','D','D','D','D','D','D','D'],
+      L: ['L','L','L','L','L','L','L','L','L'],
+    };
+
+    const adjacent = {
+      U: [['D', [6,7,8]], ['L', [6,7,8]], ['D', [2,1,0]], ['L', [2,1,0]]],
+      D: [['U', [6,7,8]], ['L', [0,3,6]], ['U', [2,1,0]], ['L', [2,5,8]]],
+      L: [['U', [0,3,6]], ['D', [0,3,6]], ['U', [2,5,8]], ['D', [2,5,8]]],
+    };-->
+
+  <script>
+    const colors = {
+      UL: 'white',
+      UR: 'red',
+      DL: 'orange',
+      DR: 'yellow',
+    };
+
+    const faceLabels = {
+        UL: '1',
+        UR: '2',
+        DL: '3',
+        DR: '4',
+    }
+
+
+    const faces = {
+      UL: ['UL','UL','UL','UL','UL','UL','UL','UL','UL'],
+      UR: ['UR','UR','UR','UR','UR','UR','UR','UR','UR'],
+      DL: ['DL','DL','DL','DL','DL','DL','DL','DL','DL'],
+      DR: ['DR','DR','DR','DR','DR','DR','DR','DR','DR']
+    };
+
+    const adjacent = {
+      UL: [['DL', [6,7,8]], ['UR', [0,3,6]], ['DL', [2,1,0]], ['UR', [2,5,8]]],
+      UR: [['DR', [6,7,8]], ['UL', [0,3,6]], ['DR', [2,1,0]], ['UL', [2,5,8]]],
+      DL: [['UL', [6,7,8]], ['DR', [0,3,6]], ['UL', [2,1,0]], ['DR', [2,5,8]]],
+      DR: [['UR', [6,7,8]], ['DL', [0,3,6]], ['UR', [2,1,0]], ['DL', [2,5,8]]],
+    };
+
+    function rotateFaceClockwise(face) {
+      let f = faces[face];
+      faces[face] = [f[6], f[3], f[0], f[7], f[4], f[1], f[8], f[5], f[2]];
+    }
+
+    function rotateUAdjacent(face) {
+      const adj = adjacent[face];
+      const temp = adj[0][1].map(i => faces[adj[0][0]][i]);
+
+      for (let i = 0; i < 3; i++) {
+        const from = adj[i + 1][0], fromIdx = adj[i + 1][1];
+        const to = adj[i][0], toIdx = adj[i][1];
+        for (let j = 0; j < 3; j++) {
+          faces[to][toIdx[j]] = faces[from][fromIdx[j]];
+        }
+      }
+
+      const last = adj[3][0], lastIdx = adj[3][1];
+      for (let j = 0; j < 3; j++) {
+        faces[adj[3][0]][adj[3][1][j]] = temp[j];
+      }
+    }
+
+    function rotateLAdjacent(face) {
+      const adj = adjacent[face];
+      const temp = adj[0][1].map(i => faces[adj[0][0]][i]);
+
+      for (let i = 0; i < 3; i++) {
+        const from = adj[i + 1][0], fromIdx = adj[i + 1][1];
+        const to = adj[i][0], toIdx = adj[i][1];
+        for (let j = 0; j < 3; j++) {
+          faces[to][toIdx[j]] = faces[from][fromIdx[j]];
+        }
+      }
+
+      const last = adj[3][0], lastIdx = adj[3][1];
+      for (let j = 0; j < 3; j++) {
+        faces[adj[3][0]][adj[3][1][j]] = temp[j];
+      }
+    }
+
+    function rotateDAdjacent(face) {
+      const adj = adjacent[face];
+      const temp = adj[0][1].map(i => faces[adj[0][0]][i]);
+
+      for (let i = 0; i < 3; i++) {
+        const from = adj[i + 1][0], fromIdx = adj[i + 1][1];
+        const to = adj[i][0], toIdx = adj[i][1];
+        for (let j = 0; j < 3; j++) {
+          faces[to][toIdx[j]] = faces[from][fromIdx[j]];
+        }
+      }
+
+      const last = adj[3][0], lastIdx = adj[3][1];
+      for (let j = 0; j < 3; j++) {
+        faces[adj[3][0]][adj[3][1][j]] = temp[j];
+      }
+    }
+
+    function rotateU(face) {
+      rotateFaceClockwise(face);
+      rotateUAdjacent(face);
+      render();
+    }
+
+    function rotateL(face) {
+      rotateFaceClockwise(face);
+      rotateLAdjacent(face);
+      render();
+    }
+
+    function rotateD(face) {
+      rotateFaceClockwise(face);
+      rotateDAdjacent(face);
+      render();
+    }
+
+    function render() {
+      for (let face in faces) {
+        const container = document.getElementById(face);
+        container.innerHTML = '';
+        for (let i = 0; i < 9; i++) {
+          const div = document.createElement('div');
+          div.className = 'sticker';
+          div.style.backgroundColor = colors[faces[face][i]];
+
+          if (i === 4) {
+            div.textContent = faceLabels[face];
+            div.style.fontWeight = 'bold';
+            div.style.color = 'black';
+            div.style.display = 'flex';
+            div.style.alignItems = 'center';
+            div.style.justifyContent = 'center';
+            }
+
+          container.appendChild(div);
+        }
+      }
+    }
+
+    render();
+  </script>
+
+  <h3>And on a flat Klein Bottle</h3>
+
+  <div class="kcube" id="kcube">
+    <div class="kface" id="KUL"></div>
+    <div class="kface" id="KUR"></div>
+    <div class="kface" id="KDL"></div>
+    <div class="kface" id="KDR"></div>
+  </div>
+
+  <div class="kcontrols" id="kcontrols">
+    <p>Rotate Face:</p>
+    <button onclick="rotateK('KUL')">1</button>
+    <button onclick="rotateK('KUR')">2</button>
+    <button onclick="rotateK('KDL')">3</button>
+    <button onclick="rotateK('KDR')">4</button>
+  </div>
+
+  <!--const faces = {
+      UL: ['U','U','U','U','U','U','U','U','U'],
+      D: ['D','D','D','D','D','D','D','D','D'],
+      L: ['L','L','L','L','L','L','L','L','L'],
+    };
+
+    const adjacent = {
+      U: [['D', [6,7,8]], ['L', [6,7,8]], ['D', [2,1,0]], ['L', [2,1,0]]],
+      D: [['U', [6,7,8]], ['L', [0,3,6]], ['U', [2,1,0]], ['L', [2,5,8]]],
+      L: [['U', [0,3,6]], ['D', [0,3,6]], ['U', [2,5,8]], ['D', [2,5,8]]],
+    };-->
+
+  <script>
+    const kcolors = {
+      KUL: 'white',
+      KUR: 'red',
+      KDL: 'orange',
+      KDR: 'yellow',
+    };
+
+    const kfaceLabels = {
+        KUL: '1',
+        KUR: '2',
+        KDL: '3',
+        KDR: '4',
+    }
+
+
+    const kfaces = {
+      KUL: ['KUL','KUL','KUL','KUL','KUL','KUL','KUL','KUL','KUL'],
+      KUR: ['KUR','KUR','KUR','KUR','KUR','KUR','KUR','KUR','KUR'],
+      KDL: ['KDL','KDL','KDL','KDL','KDL','KDL','KDL','KDL','KDL'],
+      KDR: ['KDR','KDR','KDR','KDR','KDR','KDR','KDR','KDR','KDR']
+    };
+
+    const kcorners = {
+        KUL:[['KDL',6],['KDL',8],['KDR',0],['KDR',2]],
+        KUR:[['KDR',6],['KDR',8],['KDL',0],['KDL',2]],
+        KDL:[['KDL',6],['KDL',8],['KDR',0],['KDR',2]],
+        KDR:[['KDL',6],['KDL',8],['KDR',0],['KDR',2]]
+    }
+
+    const kadjacent = {
+      KUL: [['KDR', [8,7,6]], ['KUR', [0,3,6]], ['KDL', [2,1,0]], ['KUR', [8,5,2]]],
+      KUR: [['KDL', [8,7,6]], ['KUL', [0,3,6]], ['KDR', [2,1,0]], ['KUL', [8,5,2]]],
+      KDL: [['KUL', [6,7,8]], ['KDR', [0,3,6]], ['KUR', [0,1,2]], ['KDR', [8,5,2]]],
+      KDR: [['KUR', [6,7,8]], ['KDL', [0,3,6]], ['KUL', [0,1,2]], ['KDL', [8,5,2]]],
+    };
+
+    function rotateKFaceClockwise(face) {
+      let f = kfaces[face];
+      kfaces[face] = [f[6], f[3], f[0], f[7],f[4],f[1],f[8],f[5],f[2]];
+    }
+
+    function rotateKAdjacent(face) {
+      const adj = kadjacent[face];
+      const temp = adj[0][1].map(i => kfaces[adj[0][0]][i]);
+
+      for (let i = 0; i < 3; i++) {
+        const from = adj[i + 1][0], fromIdx = adj[i + 1][1];
+        const to = adj[i][0], toIdx = adj[i][1];
+        for (let j = 0; j < 3; j++) {
+          kfaces[to][toIdx[j]] = kfaces[from][fromIdx[j]];
+        }
+      }
+
+      const last = adj[3][0], lastIdx = adj[3][1];
+      for (let j = 0; j < 3; j++) {
+        kfaces[adj[3][0]][adj[3][1][j]] = temp[j];
+      }
+    }
+
+    function rotateKCorners(face) {
+        const adj = kcorners[face];
+        const temp = kfaces[adj[0][0]][adj[0][1]];
+
+        for (let i = 0; i < 3; i++) {
+            const from = adj[i+1][0], fromIdx = adj[i+1][1];
+            const to = adj[i][0], toIdx = adj[i][1];
+            kfaces[to][toIdx] = kfaces[from][fromIdx];
+        }
+
+        kfaces[adj[3][0]][adj[3][1]] = temp;
+        
+      }
+
+    function rotateK(face) {
+      rotateKFaceClockwise(face);
+      rotateKAdjacent(face);
+      krender();
+    }
+
+
+    function krender() {
+      for (let kface in kfaces) {
+        const container = document.getElementById(kface);
+        container.innerHTML = '';
+        for (let i = 0; i < 9; i++) {
+          const div = document.createElement('div');
+          div.className = 'ksticker';
+          div.style.backgroundColor = kcolors[kfaces[kface][i]];
+
+          if (i === 4) {
+            div.textContent = kfaceLabels[kface];
+            div.style.fontWeight = 'bold';
+            div.style.color = 'black';
+            div.style.display = 'flex';
+            div.style.alignItems = 'center';
+            div.style.justifyContent = 'center';
+            }
+
+          container.appendChild(div);
+        }
+      }
+    }
+
+    krender();
+  </script>
+
+</body></html>
