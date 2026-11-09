@@ -7,7 +7,8 @@
     ["research.html", "Research"],
     ["teaching.html", "Teaching"],
     //["code.html",     "Code"],
-    ["projects.html", "Student Projects"]
+    ["projects.html", "Student Projects"],
+    ["PotW.html", "PotW"]
   ];
 
   // Site root = the folder containing this script.
