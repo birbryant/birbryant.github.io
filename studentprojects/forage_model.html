@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SCUDEM: Two Foraging Monkeys</title>
+<style>
+  :root { --ink: #1d232b; --muted: #5b6573; --line: #dde2e8; --bg: #dfdfdf; --accent: #1f5fbf; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .mm { max-width: 1240px; margin: 0 auto; padding: 24px 18px 40px; }
+  .mm h1 { font-size: 1.35rem; margin: 0 0 4px; }
+  .mm h2 { font-size: 1.05rem; margin: 0 0 10px; }
+  .mm-sub { margin: 0 0 18px; color: var(--muted); max-width: 70ch; }
+  .mm-layout { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 16px; align-items: start; }
+  @media (max-width: 900px) { .mm-layout { grid-template-columns: 1fr; } }
+  .mm-card { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  .mm-plot-title { text-align: center; font-weight: 600; font-variant-numeric: tabular-nums;
+                   font-size: 0.92rem; min-height: 2.9em; }
+  #mm-canvas { display: block; width: 100%; }
+  .mm-legend { list-style: none; padding: 0; margin: 8px 0 0; display: flex; flex-wrap: wrap;
+               gap: 6px 18px; font-size: 0.85rem; color: var(--muted); }
+  .mm-legend li { display: flex; align-items: center; gap: 6px; }
+  .mm-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+  .mm button { font: inherit; border-radius: 7px; border: 1px solid var(--line); background: #fff;
+               padding: 6px 12px; cursor: pointer; }
+  .mm button.mm-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .mm button:disabled { opacity: 0.45; cursor: default; }
+  .mm button.mm-link { border: none; background: none; color: var(--accent); padding: 8px 0 0; }
+  .mm-error { margin-top: 10px; padding: 8px 10px; border-radius: 7px; background: #fdecec;
+              color: #8a1c1c; font-size: 0.88rem; }
+  .mm-note { font-size: 0.82rem; color: var(--muted); margin: 10px 0 4px; }
+  .mm details { border-top: 1px solid var(--line); padding: 6px 0; }
+  .mm summary { cursor: pointer; font-weight: 600; font-size: 0.92rem; padding: 4px 0; }
+  .mm-fields { display: grid; gap: 6px; padding: 6px 0 4px; }
+  .mm-field { display: grid; grid-template-columns: 1fr 96px; align-items: center; gap: 8px; font-size: 0.88rem; }
+  .mm-field.mm-check { grid-template-columns: auto 1fr; }
+  .mm-field input[type=number] { width: 100%; font: inherit; padding: 3px 6px;
+                                 border: 1px solid var(--line); border-radius: 5px; }
+  .mm-results-card { margin-top: 16px; }
+  .mm table { border-collapse: collapse; font-size: 0.88rem; font-variant-numeric: tabular-nums; }
+  .mm th, .mm td { padding: 4px 10px; border-bottom: 1px solid var(--line); text-align: right; }
+  .mm th { color: var(--muted); font-weight: 600; }
+  #mm-results { overflow-x: auto; }
+  #mm-summary { background: var(--bg); border-radius: 7px; padding: 10px 12px; font-size: 0.85rem;
+                white-space: pre-wrap; margin: 12px 0; }
+</style>
+</head>
+<body>
+  <div id="site-header"></div>
+<script src="../header.js"></script>
+<main class="mm">
+  <h1>Two foraging monkeys: tree attraction, Goldilocks spacing, and sharing</h1>
+  <p class="mm-sub">Each monkey is pulled toward nearby unchecked trees and prefers to stay in a
+    band of distances from its partner. Facts about checked trees are shared within range, with
+    distance-dependent loss; a food report sends the partner straight to the tree.</p>
+
+  <div class="mm-layout">
+    <section class="mm-card">
+      <div id="mm-title" class="mm-plot-title"></div>
+      <canvas id="mm-canvas" aria-label="Forest simulation"></canvas>
+      <ul class="mm-legend">
+        <li><svg width="14" height="14"><path d="M7 2 L12 11 L2 11 Z" fill="none" stroke="rgb(0,160,0)"/></svg>Trees</li>
+        <li><svg width="14" height="14"><circle cx="7" cy="7" r="4.5" fill="rgb(255,0,0)"/></svg>Monkey 1</li>
+        <li><svg width="14" height="14"><circle cx="7" cy="7" r="4.5" fill="rgb(0,77,255)"/></svg>Monkey 2</li>
+        <li><svg width="14" height="14"><path d="M2 2 L12 12 M2 12 L12 2" stroke="#000" stroke-width="3" stroke-linecap="round"/></svg>Checked empty tree</li>
+        <li><svg width="14" height="14"><path d="M7 1 V13 M1 7 H13 M3 3 L11 11 M3 11 L11 3" stroke="#555" stroke-width="1.3"/></svg>Known food (monkey color)</li>
+        <li><svg width="26" height="14"><path d="M1 7 H25" stroke="#333" stroke-width="1.2" stroke-dasharray="6 4"/></svg>Tree-attraction radius</li>
+        <li><svg width="26" height="14"><path d="M1 7 H25" stroke="#333" stroke-width="1.2" stroke-dasharray="1.5 3" stroke-linecap="round"/></svg>Communication radius</li>
+      </ul>
+    </section>
+
+    <aside class="mm-card">
+      <div class="mm-buttons">
+        <button id="mm-run" class="mm-primary" type="button">Run trial</button>
+        <button id="mm-pause" type="button">Pause</button>
+        <button id="mm-replay" type="button" title="Run again with the current seed and current settings">Replay seed</button>
+      </div>
+      <div id="mm-error" class="mm-error" hidden></div>
+      <p class="mm-note">Settings take effect on the next run. Hover a setting for notes.</p>
+      <form id="mm-params"></form>
+    </aside>
+  </div>
+
+  <section class="mm-card mm-results-card">
+    <h2>Results</h2>
+    <div id="mm-results"></div>
+    <pre id="mm-summary"></pre>
+  </section>
+</main>
+<script src="monkey-model.js"></script>
+
+<p></p>
+<hr>
+The SCUDEM model was originally written in MatLab by Ethan and Jake. The MatLab file was fed into Claude Code to produce the above in JavaScript.
+<p></p>
+</body>
+</html>
