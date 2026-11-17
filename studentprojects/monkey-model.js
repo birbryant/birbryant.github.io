@@ -442,7 +442,8 @@
           const dx = tx[f] - s.monkeys[m][0], dy = ty[f] - s.monkeys[m][1];
           const d = Math.hypot(dx, dy);
           if (d > 0) {
-            const speed = Math.min(p.maxSpeed / (1 + d / p.lengthAttract), d / stepDt);
+            // Known food: go straight there at full speed (without overshooting).
+            const speed = Math.min(p.maxSpeed, d / stepDt);
             const mvx = speed * dx / d * stepDt, mvy = speed * dy / d * stepDt;
             s.monkeys[m] = [s.monkeys[m][0] + mvx, s.monkeys[m][1] + mvy];
             s.distanceTraveled[m] += Math.hypot(mvx, mvy);
